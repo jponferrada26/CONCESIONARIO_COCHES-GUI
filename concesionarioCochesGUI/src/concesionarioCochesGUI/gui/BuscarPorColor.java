@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import java.util.ListIterator;
 import concesionarioCochesGUI.estructura.Coche;
 import concesionarioCochesGUI.estructura.Fichero;
 /**
@@ -20,7 +20,7 @@ public class BuscarPorColor extends VentanaPadre {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private java.util.ListIterator<Coche> list;
+	private ListIterator<Coche> list;
 	
 	/**
 	 * Create the dialog.
