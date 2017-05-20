@@ -26,36 +26,19 @@ public class Fichero implements Serializable{
 		}
 	}
 	
-//	public static void nuevo(){
-//		setFichero("Sin_titulo");
-//	}
-	
-	
+
+	/**
+	 * Comprobar que el fichero dispone del nombre correcto.
+	 * @param file
+	 * @return fichero con extension
+	 */
 	public static File comprobarFichero(File file){
 		if(EXTENSION.matcher(file.getName()).matches())
 			return file;
 		else{
-//			setFichero(file.getAbsolutePath()+".obj");
 			return  new File(file.getAbsolutePath()+".obj");
 		}
 	}
-	
-	
-	
-//	/**
-//	 * @return fichero
-//	 * */
-//	public static File getFichero() {
-//		return fichero;
-//	}
-//	
-//	/**
-//	 * Asignar al fichero uno nuevo con el nombre correcto
-//	 * @param fichero
-//	 */
-//	public static void setFichero(String file) {
-//		fichero = new File(file);
-//	}
 
 	/**
 	 *  Guardar
@@ -72,7 +55,6 @@ public class Fichero implements Serializable{
 	 * Guardar como
 	 * */
 	public static void guardadComo(Object obj,File fichero) throws IOException{
-//		fichero = comprobarFichero(file);
 		try (ObjectOutputStream out = new ObjectOutputStream( new BufferedOutputStream(new FileOutputStream(fichero)))){	
 			out.writeObject(obj);	
 		}

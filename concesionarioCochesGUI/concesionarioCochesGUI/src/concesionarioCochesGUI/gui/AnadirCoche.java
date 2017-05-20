@@ -33,7 +33,7 @@ public class AnadirCoche extends VentanaPadre{
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		setTitle("Aï¿½adir coche");
+		setTitle("Añadir coche");
 		
 		buttonBack.setVisible(false);
 		buttonNext.setVisible(false);

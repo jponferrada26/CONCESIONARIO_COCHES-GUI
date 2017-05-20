@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ListIterator;
-
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -20,7 +19,8 @@ public class MostrarConcesionario extends VentanaPadre {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private ListIterator<Coche> list = Fichero.concesionario.listIterator(Fichero.concesionario.size());
+	ListIterator<Coche> list = Fichero.concesionario.listIterator(Fichero.concesionario.size());
+	private Coche coche;
 
 	/**
 	 * Create the dialog.
@@ -33,104 +33,65 @@ public class MostrarConcesionario extends VentanaPadre {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setTitle("Mostrar concesionario");
 		
-		mostrarPrimeraVez();
 		rdbtnAzul.setEnabled(false);
 		rdbtnPlata.setEnabled(false);
 		rdbtnRojo.setEnabled(false);
-		btnAceptar.setVisible(false);
+		
+		buttonBack.setEnabled(false);
 		textFieldMatricula.setEnabled(false);
 		comboBoxMarca.setEnabled(false);
 		comboBoxModelo.setEnabled(false);
 		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (list.hasPrevious()) {
-					Coche cocheCopy = list.previous();
-					if (Fichero.concesionario.indexOf(cocheCopy) > 1) {
-						cocheCopy = list.previous();
-						mostrarCoche(cocheCopy);
-						
-					}else{
-						mostrarCoche(cocheCopy);
-					}
+					coche = list.previous();
+					mostrarCoche();
 					comprobarBotones();
 				}
 			}
 
 		});
-		
+
 		buttonNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (list.hasNext()) {
-					Coche cocheCopy = list.next();
-					if (Fichero.concesionario.indexOf(cocheCopy) < Fichero.concesionario.size()-1) {
-						cocheCopy = list.next();
-						mostrarCoche(cocheCopy);
-						
-					}else{
-						mostrarCoche(cocheCopy);
-					}
+					coche = list.next();
+					mostrarCoche();
 					comprobarBotones();
 				}
 			}
 
 
-			
 		});
-		
-		btnCancelar.setText("Aceptar");
-		btnCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				
-			}
-		});
-		
+
+	}
+	
+	/**
+	 * Volcar los datos del coche en los elementos del panel(Mostrar coche)
+	 */
+	private void mostrarCoche() {//Mostrar coche
+		comboBoxModelo.removeAllItems();
+		comboBoxModelo.addItem(coche.getModelo());
+		comboBoxMarca.removeAllItems();
+		comboBoxMarca.addItem(coche.getModelo().getMarca());
+		seleccionarColor(coche.getColor());
+		textFieldMatricula.setText(coche.getMatricula());
 	}
 
-	private void mostrarPrimeraVez() {
-		if (Fichero.concesionario.size()>0) {
-			Coche cocheCopy =list.next();
-			comboBoxModelo.removeAllItems();
-			comboBoxModelo.addItem(cocheCopy.getModelo());
-			
-			comboBoxMarca.removeAllItems();
-			comboBoxMarca.addItem(cocheCopy.getModelo().getMarca());
-			seleccionarColor(cocheCopy.getColor());
-			textFieldMatricula.setText(cocheCopy.getMatricula());
-			
-		}
-		
-		
-		
-	}
-	
 	/**
-	 * Inserta en los Jtext, los datos del coche seleccionado
-	 * @param cocheCopy
+	 * Comprobar los botones del panel.
 	 */
-	private void mostrarCoche(Coche cocheCopy) {
-		comboBoxModelo.removeAllItems();
-		comboBoxModelo.addItem(cocheCopy.getModelo());
-		
-		comboBoxMarca.removeAllItems();
-		comboBoxMarca.addItem(cocheCopy.getModelo().getMarca());
-		seleccionarColor(cocheCopy.getColor());
-		textFieldMatricula.setText(cocheCopy.getMatricula());
-	}
-	
-	/**
-	 * Comprueba los botones para habilitarlos/deshabilitarlos
-	 */
-	private void comprobarBotones() {
+	void comprobarBotones() {
 		if (!list.hasNext()) {
 			buttonNext.setEnabled(false);
-		}else{
+			coche = list.previous();
+		} else {
 			buttonNext.setEnabled(true);
 		}
-		if(!list.hasPrevious()){
+		if (!list.hasPrevious()) {
 			buttonBack.setEnabled(false);
-		}else{
+			coche = list.next();
+		} else {
 			buttonBack.setEnabled(true);
 		}
 	}

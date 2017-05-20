@@ -22,6 +22,8 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 /**
  * Ventana principal
  * @author Javier Ponferrada López
@@ -57,6 +59,16 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {//Salir con la equis
+				salir();
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {//Salir con Alt+F4
+				salir();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img/LogoConcesionario.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -179,24 +191,9 @@ public class Principal extends JFrame {
 		mntmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mntmSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Fichero.concesionario.isModificado()) {//Comprueba que se ha mododificado el concesionario
-					Object[] opciones = new Object[] { "Si", "No", "Cancelar" };
-					int respuesta = JOptionPane.showOptionDialog(null,
-							"No se ha guardado los cambios,¿Deseas guardar los cambios?", "No has guardado",
-							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opciones, opciones[0]);
-					switch (respuesta) {
-					case 0://Se desea que se guarde los cambios y se salga del programa
-						guardarComoFichero();
-						System.exit(0);
-						break;
-					case 1://Se desea salir del programa sin guardar los cambios
-						System.exit(0);
-						break;
-					}
-				} else {
-					System.exit(0);
-				}
+				salir();
 			}
+
 		});
 		mnNewMenu.add(mntmSalir);
 
@@ -281,7 +278,6 @@ public class Principal extends JFrame {
 		menuBar.add(mnAyuda);
 
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de...");
-		mntmAcercaDe.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {// Acerca de
 				AcercaDe acercaDe = new AcercaDe();
@@ -356,7 +352,29 @@ public class Principal extends JFrame {
 				}
 			}
 		}
-		// setTitle(jFileChooser.getSelectedFile().getName());
 		Fichero.concesionario.setModificado(false);
+	}
+	
+	/**
+	 * 
+	 */
+	private void salir() {
+		if (Fichero.concesionario.isModificado()) {//Comprueba que se ha mododificado el concesionario
+			Object[] opciones = new Object[] { "Si", "No", "Cancelar" };
+			int respuesta = JOptionPane.showOptionDialog(null,
+					"No se ha guardado los cambios,¿Deseas guardar los cambios?", "No has guardado",
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opciones, opciones[0]);
+			switch (respuesta) {
+			case 0://Se desea que se guarde los cambios y se salga del programa
+				guardarComoFichero();
+				System.exit(0);
+				break;
+			case 1://Se desea salir del programa sin guardar los cambios
+				System.exit(0);
+				break;
+			}
+		} else {
+			System.exit(0);
+		}
 	}
 }

@@ -181,7 +181,7 @@ public class VentanaPadre extends JDialog {
 		
 	}
 	
-	protected concesionarioCochesGUI.estructura.Color getSelectedColor(){
+	concesionarioCochesGUI.estructura.Color getSelectedColor(){
 		if (rdbtnPlata.isSelected()) {
 			return concesionarioCochesGUI.estructura.Color.PLATA;
 		}else if(rdbtnRojo.isSelected()){
@@ -194,7 +194,7 @@ public class VentanaPadre extends JDialog {
 		
 	}
 	
-	protected void seleccionarColor(concesionarioCochesGUI.estructura.Color color) {
+	void seleccionarColor(concesionarioCochesGUI.estructura.Color color) {
 		switch (color) {
 		case PLATA:
 			rdbtnPlata.setSelected(true);
@@ -208,18 +208,5 @@ public class VentanaPadre extends JDialog {
 		}
 		
 	}
-//	private void comprobarBotones() {
-//		if (!list.hasPrevious()) {
-//			buttonBack.setEnabled(false);
-//		}else{
-//			buttonBack.setEnabled(true);
-//		}
-//		if(list.hasNext()){
-//			buttonNext.setEnabled(false);
-//		}else{
-//			buttonNext.setEnabled(true);
-//		}
-//		
-//	}
 
 }
